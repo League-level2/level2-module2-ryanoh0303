@@ -28,7 +28,7 @@ public Segment(int x, int y){
 Segment snakehead;
 int foodX;
 int foodY;
-
+ArrayList<Segment> tail= new ArrayList<Segment>();
 int direction=UP;
 int numberofpieces=0;
 
@@ -59,6 +59,8 @@ void dropFood() {
 
 void draw() {
   background(0,0,0);
+  fill(255,255,0);
+  text("score: " +numberofpieces  ,10,20);
   drawFood();
   move();
   drawSnake();
@@ -76,6 +78,7 @@ void drawSnake() {
   //Draw the head of the snake followed by its tail
   fill(9,40,230);
   rect(snakehead.x,snakehead.y,10,10);
+  manageTail();
 }
 
 
@@ -86,17 +89,34 @@ void drawSnake() {
 
 void drawTail() {
   //Draw each segment of the tail 
-
+  for(int i=0; i<tail.size(); i++){
+    rect(tail.get(i).x,tail.get(i).y,10,10);
+    
+  }
 }
 
 void manageTail() {
   //After drawing the tail, add a new segment at the "start" of the tail and remove the one at the "end" 
   //This produces the illusion of the snake tail moving.
+  checkTailCollision();
+  drawTail();
+  tail.add(new Segment(snakehead.x,snakehead.y));
+  tail.remove(0);
+  
   
 }
 
 void checkTailCollision() {
   //If the snake crosses its own tail, shrink the tail back to one segment
+  for(int i=0; i<tail.size(); i++){
+     if(tail.get(i).x==snakehead.x && snakehead.y==tail.get(i).y){
+       numberofpieces=0;
+       tail=new ArrayList<Segment>();
+       tail.add(new Segment(snakehead.x, snakehead.y));
+       
+     }
+    
+  }
   
 }
 
@@ -176,7 +196,7 @@ void eat() {
 
    dropFood();
     numberofpieces+=1;
-   
+   tail.add(new Segment(snakehead.x, snakehead.y));
     
   }
   
