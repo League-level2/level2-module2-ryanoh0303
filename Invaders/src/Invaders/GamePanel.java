@@ -7,7 +7,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
 
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -19,12 +21,20 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	int currentState=MENU;
 	Font titleFont;
 	Font titleFont2;
+	Rocketship rocketship=new Rocketship(250,700,50,50);
+	ObjectManager objectmanager= new ObjectManager(rocketship);
+	public static BufferedImage image;
+	public static boolean needImage = true;
+	public static boolean gotImage = false;	
 
 public GamePanel(){
 	 titleFont = new Font("Arial", Font.PLAIN, 40);
 	 titleFont2= new Font("Arial", Font.PLAIN, 20);
 	 frameDraw = new Timer(1000/60,this);
 	 frameDraw.start();
+	 if (needImage) {
+		    loadImage ("space.png");
+		}
 
 }
 
@@ -40,7 +50,9 @@ public void paintComponent(Graphics g) {
 }
 
 void updateMenuState() {}
-void updateGameState() {}
+void updateGameState() {
+	objectmanager.update();
+}
 void updateEndState() {}
 
 void drawMenuState(Graphics g) {
@@ -56,8 +68,15 @@ void drawMenuState(Graphics g) {
 }
 void drawGameState(Graphics g) {
 	g.setColor(Color.BLACK);
-	g.fillRect(0, 0, LeagueInvaders.WIDTH, LeagueInvaders.HEIGHT);
+    g.fillRect(0, 0, WIDTH, HEIGHT);
+    if (gotImage) {
+		g.drawImage(image, 0, 0, LeagueInvaders.WIDTH, LeagueInvaders.HEIGHT, null);
+	} else {
+		g.setColor(Color.BLACK);
+		g.fillRect(0, 0, LeagueInvaders.WIDTH, LeagueInvaders.HEIGHT);
+	}
 	
+	objectmanager.draw(g);
 }
 void drawEndState(Graphics g) {
 	g.setColor(Color.RED);
@@ -120,6 +139,18 @@ public void keyReleased(KeyEvent e) {
 	// TODO Auto-generated method stub
 	
 }
+void loadImage(String imageFile) {
+    if (needImage) {
+        try {
+            image = ImageIO.read(this.getClass().getResourceAsStream(imageFile));
+	    gotImage = true;
+        } catch (Exception e) {
+            
+        }
+        needImage = false;
+    }
+}
+
 }
 
 
