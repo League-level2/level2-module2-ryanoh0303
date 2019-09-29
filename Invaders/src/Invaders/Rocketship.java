@@ -13,10 +13,23 @@ public class Rocketship extends GameObject {
 
 	public Rocketship(int x, int y, int width, int height) {
 		super(x, y, width, height);
+		speed=20;
 		if (needImage) {
 		    loadImage ("rocket.png");
 		}
 	}
+	public void right() {
+        x+=speed;
+    }
+	public void left() {
+        x-=speed;
+    }
+	public void down() {
+        y+=speed;
+    }
+	public void up() {
+        y-=speed;
+    }
 	
 	void draw(Graphics g) {
 		g.setColor(Color.BLUE);
@@ -39,4 +52,7 @@ public class Rocketship extends GameObject {
 	        needImage = false;
 	    }
 	}
+	public Projectile getProjectile() {
+        return new Projectile(x+width/2, y, 10, 10);
+    } 
 }

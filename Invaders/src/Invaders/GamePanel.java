@@ -18,6 +18,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	final int GAME=1;
 	final int END=2;
 	Timer frameDraw;
+	Timer alienSpawn;
 	int currentState=MENU;
 	Font titleFont;
 	Font titleFont2;
@@ -51,10 +52,16 @@ public void paintComponent(Graphics g) {
 
 void updateMenuState() {}
 void updateGameState() {
-	objectmanager.update();
+	
+	
 }
-void updateEndState() {}
-
+void updateEndState() {
+	
+}
+void startGame() {
+	alienSpawn=new Timer(1000, objectmanager);
+	alienSpawn.start();
+}
 void drawMenuState(Graphics g) {
 	g.setColor(Color.BLUE);
 	g.fillRect(0, 0, LeagueInvaders.WIDTH, LeagueInvaders.HEIGHT);
@@ -75,10 +82,12 @@ void drawGameState(Graphics g) {
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, LeagueInvaders.WIDTH, LeagueInvaders.HEIGHT);
 	}
-	
+    objectmanager.update();
 	objectmanager.draw(g);
+	
 }
 void drawEndState(Graphics g) {
+	alienSpawn.stop();
 	g.setColor(Color.RED);
 	g.fillRect(0, 0, LeagueInvaders.WIDTH, LeagueInvaders.HEIGHT);
 	g.setColor(Color.YELLOW);
@@ -94,6 +103,7 @@ public void actionPerformed(ActionEvent e) {
 	if(currentState == MENU){
 	    updateMenuState();
 	}else if(currentState == GAME){
+		
 	    updateGameState();
 	}else if(currentState == END){
 	    updateEndState();
@@ -113,23 +123,30 @@ public void keyPressed(KeyEvent e) {
 	if (e.getKeyCode()==KeyEvent.VK_ENTER) {
 	    if (currentState == END) {
 	        currentState = MENU;
+	        startGame();
 	    } else {
 	        currentState++;
 	    }
 	}   
 	if (e.getKeyCode()==KeyEvent.VK_UP) {
 	    System.out.println("UP");
+	    rocketship.up();
 	}
 	if (e.getKeyCode()==KeyEvent.VK_DOWN) {
 	    System.out.println("DOWN");
+	    rocketship.down();
 	}
 	if (e.getKeyCode()==KeyEvent.VK_RIGHT) {
 	    System.out.println("RIGHT");
+	    rocketship.right();
 	}
 	if (e.getKeyCode()==KeyEvent.VK_LEFT) {
 	    System.out.println("LEFT");
+	    rocketship.left();
 	}
-	
+	if(e.getKeyCode()==KeyEvent.VK_SPACE){
+		objectmanager.addProjectile(rocketship.getProjectile());
+	}
 	
 	
 }
