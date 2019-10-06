@@ -52,7 +52,9 @@ public void paintComponent(Graphics g) {
 
 void updateMenuState() {}
 void updateGameState() {
-	
+	if(rocketship.isActive=false) {
+		currentState=END;
+	}
 	
 }
 void updateEndState() {
@@ -120,12 +122,18 @@ public void keyTyped(KeyEvent e) {
 
 @Override
 public void keyPressed(KeyEvent e) {
+	
 	if (e.getKeyCode()==KeyEvent.VK_ENTER) {
 	    if (currentState == END) {
 	        currentState = MENU;
+	        
+	    } 
+	    else if(currentState==MENU){
+	    	currentState = GAME;
 	        startGame();
-	    } else {
-	        currentState++;
+	    }
+	    else {
+	    	currentState++;
 	    }
 	}   
 	if (e.getKeyCode()==KeyEvent.VK_UP) {

@@ -47,8 +47,14 @@ public class ObjectManager implements ActionListener {
 			      }
 				
 		}
+		if(rocket.isActive=true) {  
+		checkCollision();
+		purgeObjects();
+		
 		
 		}
+		//there is an error here!
+	}
 	
 	void draw(Graphics g) {
 		rocket.draw(g);
@@ -61,17 +67,36 @@ public class ObjectManager implements ActionListener {
 		
 	}
 	void purgeObjects() {
-		for(int i=0; i<aliens.size(); i++) {
+		for(int i=0; i<aliens.size()-1; i++) {
 			if(aliens.get(i).isActive=false) {
+				System.out.println("alsjdfljS");
 				aliens.remove(i);
 			}
 		}
-		for (int i = 0; i < projectiles.size(); i++) {
+		for (int i = 0; i <projectiles.size()-1;i++) {
 			if(projectiles.get(i).isActive=false) {
+				System.out.println("sdfasdf");
 				projectiles.remove(i);
 			}
 		}
-		
+		//there is an error here!!!
+	}
+	void checkCollision(){
+		for(int i=0; i<aliens.size(); i++) {
+			for(int j=0; j<projectiles.size(); j++) {
+				if(projectiles.get(j).collisionBox.intersects(aliens.get(i).collisionBox)) {
+					aliens.get(i).isActive=false;
+					projectiles.get(j).isActive=false;
+				}
+				else if(rocket.collisionBox.intersects(aliens.get(i).collisionBox)){
+					rocket.isActive=false;
+			aliens.get(i).isActive=false;
+				}
+			}
+			
+				//there is an error here!!!
+			
+		}
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
