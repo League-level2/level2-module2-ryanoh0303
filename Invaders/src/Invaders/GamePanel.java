@@ -52,8 +52,10 @@ public void paintComponent(Graphics g) {
 
 void updateMenuState() {}
 void updateGameState() {
-	if(rocketship.isActive=false) {
+	if(rocketship.isActive==false) {
+		System.out.println("GAME ENDED");
 		currentState=END;
+				
 	}
 	
 }

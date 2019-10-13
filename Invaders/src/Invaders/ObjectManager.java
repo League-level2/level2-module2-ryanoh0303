@@ -16,12 +16,13 @@ public class ObjectManager implements ActionListener {
 	ArrayList<Projectile> projectiles= new ArrayList<Projectile>();
 	ArrayList<Alien> aliens= new ArrayList<Alien>();
 	Random random= new Random();
-	
+
 
 	
 	
 	public ObjectManager(Rocketship rocket) {
 		this.rocket=rocket;
+		rocket.isActive=true;
 		
 	}
 	void addProjectile(Projectile projectile) {
@@ -30,34 +31,39 @@ public class ObjectManager implements ActionListener {
 	}
 	void addAlien(){
 		aliens.add(new Alien(random.nextInt(LeagueInvaders.WIDTH),0,50,50));
-		System.out.println("asdf");
+		
 		
 	}
 	void update() {
 		for(int i=0; i<aliens.size(); i++) {
+			aliens.get(i).isActive=true;
 			aliens.get(i).update();
-			if(LeagueInvaders.HEIGHT<=0 || LeagueInvaders.HEIGHT>=800) {
+			if(aliens.get(i).height<=0 || aliens.get(i).width>=800) {
 				aliens.get(i).isActive=false;
-		      }
+		     }
+		
 		}
 		for(int j=0; j<projectiles.size(); j++) {
+				projectiles.get(j).isActive=true;
 				projectiles.get(j).update();
-				if(LeagueInvaders.HEIGHT<=0 || LeagueInvaders.HEIGHT>=800) {
+				if(projectiles.get(j).height<=0 || projectiles.get(j).height>=800) {
 					projectiles.get(j).isActive=false;
 			      }
-				
+								
 		}
-		if(rocket.isActive=true) {  
+		
 		checkCollision();
 		purgeObjects();
+
 		
 		
 		}
 		//there is an error here!
-	}
+	
 	
 	void draw(Graphics g) {
 		rocket.draw(g);
+		
 		for(int i=0; i<aliens.size(); i++) {
 			aliens.get(i).draw(g);
 		}
@@ -67,41 +73,53 @@ public class ObjectManager implements ActionListener {
 		
 	}
 	void purgeObjects() {
-		for(int i=0; i<aliens.size()-1; i++) {
-			if(aliens.get(i).isActive=false) {
-				System.out.println("alsjdfljS");
+		for(int i=0; i<aliens.size(); i++) {
+			if(aliens.get(i).isActive!=true) { 
+				
 				aliens.remove(i);
 			}
 		}
-		for (int i = 0; i <projectiles.size()-1;i++) {
-			if(projectiles.get(i).isActive=false) {
-				System.out.println("sdfasdf");
-				projectiles.remove(i);
+		for (int c = 0; c <projectiles.size();c++) {
+			if(projectiles.get(c).isActive!=true) {
+				projectiles.remove(c);
 			}
 		}
 		//there is an error here!!!
 	}
 	void checkCollision(){
+		//System.out.println("Checking");
 		for(int i=0; i<aliens.size(); i++) {
 			for(int j=0; j<projectiles.size(); j++) {
 				if(projectiles.get(j).collisionBox.intersects(aliens.get(i).collisionBox)) {
 					aliens.get(i).isActive=false;
 					projectiles.get(j).isActive=false;
+					System.out.println("Not active");
+					
+					
 				}
-				else if(rocket.collisionBox.intersects(aliens.get(i).collisionBox)){
-					rocket.isActive=false;
-			aliens.get(i).isActive=false;
-				}
+				
+				
 			}
+		for(int y=0; y<aliens.size(); y++) {
+			if(rocket.collisionBox.intersects(aliens.get(y).collisionBox)){
+				System.out.println("NOt active");
+				rocket.isActive=false;
+				
+				
+				
+		
+			}
+		}
 			
 				//there is an error here!!!
 			
 		}
+			
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		addAlien();
+		addAlien(); 
 		
 	}
 }

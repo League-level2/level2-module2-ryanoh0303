@@ -12,6 +12,7 @@ public class Rocketship extends GameObject {
 	public static boolean gotImage = false;	
 
 	public Rocketship(int x, int y, int width, int height) {
+		
 		super(x, y, width, height);
 		speed=20;
 		if (needImage) {
