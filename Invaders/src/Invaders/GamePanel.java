@@ -98,7 +98,7 @@ void drawEndState(Graphics g) {
 	g.setFont(titleFont);
 	g.drawString("GAME OVER",115,100);
 	g.setFont(titleFont2);
-	g.drawString("You killed enemy" , 160,400);
+	g.drawString("You killed " +objectmanager.getScore()+ " enemy" , 160,400);
 	g.drawString("Press ENTER to restart" ,130,600);
 }
 
@@ -128,7 +128,8 @@ public void keyPressed(KeyEvent e) {
 	if (e.getKeyCode()==KeyEvent.VK_ENTER) {
 	    if (currentState == END) {
 	        currentState = MENU;
-	        
+	        rocketship= new Rocketship(250,700,50,50);
+	        objectmanager= new ObjectManager(rocketship);
 	    } 
 	    else if(currentState==MENU){
 	    	currentState = GAME;
@@ -137,6 +138,7 @@ public void keyPressed(KeyEvent e) {
 	    else {
 	    	currentState++;
 	    }
+	   
 	}   
 	if (e.getKeyCode()==KeyEvent.VK_UP) {
 	    System.out.println("UP");

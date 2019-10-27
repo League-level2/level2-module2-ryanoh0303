@@ -12,12 +12,15 @@ import java.util.Random;
 import javax.imageio.ImageIO;
 
 public class ObjectManager implements ActionListener {
+	int score=0;
 	Rocketship rocket;
 	ArrayList<Projectile> projectiles= new ArrayList<Projectile>();
 	ArrayList<Alien> aliens= new ArrayList<Alien>();
 	Random random= new Random();
 
-
+	int getScore() {
+		return score;
+	}
 	
 	
 	public ObjectManager(Rocketship rocket) {
@@ -51,7 +54,7 @@ public class ObjectManager implements ActionListener {
 			      }
 								
 		}
-		
+		rocket.update();
 		checkCollision();
 		purgeObjects();
 
@@ -84,6 +87,7 @@ public class ObjectManager implements ActionListener {
 				projectiles.remove(c);
 			}
 		}
+		
 		//there is an error here!!!
 	}
 	void checkCollision(){
@@ -93,7 +97,8 @@ public class ObjectManager implements ActionListener {
 				if(projectiles.get(j).collisionBox.intersects(aliens.get(i).collisionBox)) {
 					aliens.get(i).isActive=false;
 					projectiles.get(j).isActive=false;
-					System.out.println("Not active");
+					score=score+1;
+					
 					
 					
 				}
@@ -104,8 +109,6 @@ public class ObjectManager implements ActionListener {
 			if(rocket.collisionBox.intersects(aliens.get(y).collisionBox)){
 				System.out.println("NOt active");
 				rocket.isActive=false;
-				
-				
 				
 		
 			}
