@@ -16,7 +16,7 @@ public class Rocketship extends GameObject {
 		super(x, y, width, height);
 		speed=20;
 		if (needImage) {
-		    loadImage ("rocket.png");
+		    loadImage ("jet.png");
 		}
 	}
 	public void right() {

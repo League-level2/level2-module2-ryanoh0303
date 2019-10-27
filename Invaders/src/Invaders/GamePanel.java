@@ -19,6 +19,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	final int END=2;
 	Timer frameDraw;
 	Timer alienSpawn;
+	Timer drinkSpawn;
+	Timer speedSpawn;
+	Timer Opspwan;
 	int currentState=MENU;
 	Font titleFont;
 	Font titleFont2;
@@ -34,7 +37,7 @@ public GamePanel(){
 	 frameDraw = new Timer(1000/60,this);
 	 frameDraw.start();
 	 if (needImage) {
-		    loadImage ("space.png");
+		    loadImage ("background.png");
 		}
 
 }
@@ -63,8 +66,15 @@ void updateEndState() {
 	
 }
 void startGame() {
-	alienSpawn=new Timer(1000, objectmanager);
+	alienSpawn=new Timer(5000, objectmanager);
 	alienSpawn.start();
+	drinkSpawn= new Timer(8000,objectmanager);
+	drinkSpawn.start();
+	speedSpawn= new Timer(9000,objectmanager);
+	speedSpawn.start();
+	Opspwan= new Timer(6000,objectmanager);
+	Opspwan.start();
+
 }
 void drawMenuState(Graphics g) {
 	g.setColor(Color.BLUE);
