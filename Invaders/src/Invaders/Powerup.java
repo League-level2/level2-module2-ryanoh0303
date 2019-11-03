@@ -15,7 +15,7 @@ public class Powerup extends GameObject{
 		super(x, y, width, height);
 		if (needImage) {
 		    loadImage ("energy.png");
-		}
+		} 
 		
 	}
 	void update() {

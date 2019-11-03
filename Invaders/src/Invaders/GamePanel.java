@@ -22,16 +22,19 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	Timer drinkSpawn;
 	Timer speedSpawn;
 	Timer Opspwan;
+	Timer bombSpawn;
 	int currentState=MENU;
 	Font titleFont;
 	Font titleFont2;
 	Rocketship rocketship=new Rocketship(250,700,50,50);
-	ObjectManager objectmanager= new ObjectManager(rocketship);
+	ObjectManager objectmanager;
+
 	public static BufferedImage image;
 	public static boolean needImage = true;
 	public static boolean gotImage = false;	
 
 public GamePanel(){
+	objectmanager=new ObjectManager(rocketship,this);
 	 titleFont = new Font("Arial", Font.PLAIN, 40);
 	 titleFont2= new Font("Arial", Font.PLAIN, 20);
 	 frameDraw = new Timer(1000/60,this);
@@ -39,6 +42,9 @@ public GamePanel(){
 	 if (needImage) {
 		    loadImage ("background.png");
 		}
+ 
+	
+	 
 
 }
 
@@ -62,18 +68,18 @@ void updateGameState() {
 	}
 	
 }
-void updateEndState() {
+void updateEndState() {    
 	
 }
 void startGame() {
-	alienSpawn=new Timer(5000, objectmanager);
+	alienSpawn=new Timer(objectmanager.spawna, objectmanager);
 	alienSpawn.start();
-	drinkSpawn= new Timer(8000,objectmanager);
+	drinkSpawn= new Timer(objectmanager.drinkspawn,objectmanager);
 	drinkSpawn.start();
-	speedSpawn= new Timer(9000,objectmanager);
+	speedSpawn= new Timer(objectmanager.speedspawn,objectmanager);
 	speedSpawn.start();
-	Opspwan= new Timer(6000,objectmanager);
-	Opspwan.start();
+	Opspwan= new Timer(objectmanager.spawnb,objectmanager);
+
 
 }
 void drawMenuState(Graphics g) {
@@ -85,13 +91,22 @@ void drawMenuState(Graphics g) {
 	
 	g.setFont(titleFont2);
 	g.drawString("Press ENTER to Start!" , 150,400);
+  
 	g.drawString("Press SPACE for instructions" ,120,600);
 }
 void drawGameState(Graphics g) {
 	g.setColor(Color.BLACK);
+	
     g.fillRect(0, 0, WIDTH, HEIGHT);
+    
+   
+    g.setColor(Color.BLACK);
+
+ 
     if (gotImage) {
 		g.drawImage(image, 0, 0, LeagueInvaders.WIDTH, LeagueInvaders.HEIGHT, null);
+		 g.setFont(titleFont2);        
+		 g.drawString("Bomb left: "+ objectmanager.amount, 360 ,50); 
 	} else {
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, LeagueInvaders.WIDTH, LeagueInvaders.HEIGHT);
@@ -139,7 +154,7 @@ public void keyPressed(KeyEvent e) {
 	    if (currentState == END) {
 	        currentState = MENU;
 	        rocketship= new Rocketship(250,700,50,50);
-	        objectmanager= new ObjectManager(rocketship);
+	        objectmanager= new ObjectManager(rocketship, this);
 	    } 
 	    else if(currentState==MENU){
 	    	currentState = GAME;
@@ -149,7 +164,12 @@ public void keyPressed(KeyEvent e) {
 	    	currentState++;
 	    }
 	   
-	}   
+	}  
+	if(e.getKeyCode()==KeyEvent.VK_BACK_SPACE) {
+		objectmanager.amount=objectmanager.amount-1;
+		System.out.println("Bomb");
+		objectmanager.killAll();
+	}
 	if (e.getKeyCode()==KeyEvent.VK_UP) {
 	    System.out.println("UP");
 	    rocketship.up();
@@ -169,6 +189,7 @@ public void keyPressed(KeyEvent e) {
 	if(e.getKeyCode()==KeyEvent.VK_SPACE){
 		objectmanager.addProjectile(rocketship.getProjectile());
 	}
+
 	
 	
 }

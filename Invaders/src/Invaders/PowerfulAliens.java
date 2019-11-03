@@ -22,6 +22,7 @@ public class PowerfulAliens extends GameObject {
 			
 		}
 		void update(Rocketship rocket) {
+			
 			if(x<rocket.x) {
 				x+=speed;
 			}
@@ -38,7 +39,7 @@ public class PowerfulAliens extends GameObject {
 			super.update();
 			
 		}
-		void draw(Graphics g) {
+		void draw(Graphics g) { 
 		    g.setColor(Color.YELLOW);
 	        g.fillRect(x, y, width, height);
 	        if (gotImage) {
@@ -60,6 +61,10 @@ public class PowerfulAliens extends GameObject {
 		        needImage = false;
 		    }
 		}
+		public AnotherProjectile getProjectile2() {
+	        return new AnotherProjectile(x+width/2, y, 10, 10);
+	    } 
+
 	}
 
 

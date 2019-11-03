@@ -2,25 +2,26 @@ package Invaders;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 
 import javax.imageio.ImageIO;
 
-public class Projectile extends GameObject{
+public class AnotherProjectile extends GameObject{
 	public static BufferedImage image;
 	public static boolean needImage = true;
 	public static boolean gotImage = false;	
 	
-	public Projectile(int x, int y, int width, int height) {
+	public AnotherProjectile(int x, int y, int width, int height) {
 		super(x, y, width, height);
-		
 		speed=10;
 		if (needImage) {
 		    loadImage ("bullet.png");
 		}
 	}
+		
 	void update() {
-		y-=speed;
+		y+=speed;
 		super.update();
 	}
 	void draw(Graphics g) {
@@ -45,6 +46,5 @@ public class Projectile extends GameObject{
 	        needImage = false;
 	    }
 	}
-
+	
 }
-
