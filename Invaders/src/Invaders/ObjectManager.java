@@ -13,14 +13,13 @@ import java.util.Random;
 
 import javax.imageio.ImageIO;
 import javax.swing.Action;
+import javax.swing.Timer;
 
 public class ObjectManager implements ActionListener, KeyListener {
 	int amount=4;
 	int score=0;
-	int spawna= 3000;
-	int spawnb= 6000;
-	int drinkspawn=7000;
-	int speedspawn=5000;
+	
+	Timer bullet= new Timer(1000, this);
 	Rocketship rocket;
 	GamePanel game;
 	ArrayList<Projectile> projectiles= new ArrayList<Projectile>();
@@ -41,6 +40,7 @@ public class ObjectManager implements ActionListener, KeyListener {
 		this.rocket=rocket;
 		rocket.isActive=true;
 		this.game=game;
+		bullet.start();
 		
 	}
 	void addProjectile(Projectile projectile) {
@@ -83,7 +83,6 @@ public class ObjectManager implements ActionListener, KeyListener {
 	void addAlien2(){
 		aliens2.add(new PowerfulAliens(random.nextInt(LeagueInvaders.WIDTH),0,50,50));
 		
-		
 	}
 	void addDrink() {
 		drinks.add(new Powerup(random.nextInt(500),0,30,30));
@@ -94,9 +93,7 @@ public class ObjectManager implements ActionListener, KeyListener {
 	}
 	void update() {
 		
-		for(int i=0; i<aliens2.size(); i++) {
-			addProjectile2(aliens2.get(i).getProjectile2());
-		}
+		
 		for(int i=0; i<aliens.size(); i++) {
 			aliens.get(i).isActive=true;
 			aliens.get(i).update();
@@ -174,8 +171,8 @@ public class ObjectManager implements ActionListener, KeyListener {
 	void purgeObjects() {
 		for(int i=0; i<aliens.size(); i++) {
 			if(aliens.get(i).isActive!=true) { 
-				spawna-=500;
-				System.out.println(spawna);
+				
+				System.out.println(game.spawna);
 				aliens.remove(i);
 			}
 		}
@@ -193,20 +190,24 @@ public class ObjectManager implements ActionListener, KeyListener {
 		for (int d= 0; d <drinks.size();d++) {
 			if(drinks.get(d).isActive!=true) {
 				drinks.remove(d);
-				drinkspawn+=400;
+				game.drinkspawn+=400;
+				System.out.println(game.drinkspawn);
 			}
 		}
 		for (int d= 0; d <sword.size();d++) {
 			if(sword.get(d).isActive!=true) {
 				sword.remove(d);
-				speedspawn+=400;
+				game.speedspawn+=400;
+				System.out.println(game.speedspawn);
 			}
 		}
 		for (int d= 0; d <aliens2.size();d++) {
+				if(aliens2.get(d).isActive!=true) {
+					aliens2.remove(d);
+					
+				}
+				
 			
-				aliens2.remove(d);
-				System.out.println(spawnb);
-				spawnb-=500; 
 				
 			
 		}
@@ -215,12 +216,14 @@ public class ObjectManager implements ActionListener, KeyListener {
 		//there is an error here!!!
 	}
 	void checkCollision(){
-		//System.out.println("Checking");
+		
 		for(int i=0; i<aliens.size(); i++) {
 			for(int j=0; j<projectiles.size(); j++) {
 				if(projectiles.get(j).collisionBox.intersects(aliens.get(i).collisionBox)) {
 					aliens.get(i).isActive=false;
 					projectiles.get(j).isActive=false;
+					
+				
 					score=score+1;
 				}
 				}
@@ -297,16 +300,31 @@ public class ObjectManager implements ActionListener, KeyListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource().equals(game.alienSpawn)) {
+			game.spawna-=100;
+			System.out.println(game.spawna);
+			game.alienSpawn=new Timer(game.spawna, this);
+			if(game.spawna<=0) {
+				game.spawna=3000;
+			}
+			game.alienSpawn.start();
 			addAlien();
 		}
 		if(e.getSource().equals(game.Opspwan)) {
+			System.out.println("Adding OP Alien");
 			addAlien2();
 		}
+		
 		if(e.getSource().equals(game.drinkSpawn)) {
 			addDrink();
 		}
 		if(e.getSource().equals(game.speedSpawn)) {
 			addSpeed();
+		}
+		for(int i=0; i<aliens2.size(); i++) {
+			if(bullet.equals(e.getSource())) {
+				addProjectile2(aliens2.get(i).getProjectile2());
+			}
+			
 		}
 
 	

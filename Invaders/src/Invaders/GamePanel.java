@@ -28,6 +28,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	Font titleFont2;
 	Rocketship rocketship=new Rocketship(250,700,50,50);
 	ObjectManager objectmanager;
+	int spawna= 3000;
+	int spawnb= 6000;
+	int drinkspawn=7000;
+	int speedspawn=5000;
 
 	public static BufferedImage image;
 	public static boolean needImage = true;
@@ -72,13 +76,14 @@ void updateEndState() {
 	
 }
 void startGame() {
-	alienSpawn=new Timer(objectmanager.spawna, objectmanager);
+	alienSpawn=new Timer(spawna, objectmanager);
 	alienSpawn.start();
-	drinkSpawn= new Timer(objectmanager.drinkspawn,objectmanager);
+	drinkSpawn= new Timer(drinkspawn,objectmanager);
 	drinkSpawn.start();
-	speedSpawn= new Timer(objectmanager.speedspawn,objectmanager);
+	speedSpawn= new Timer(speedspawn,objectmanager);
 	speedSpawn.start();
-	Opspwan= new Timer(objectmanager.spawnb,objectmanager);
+	Opspwan= new Timer(spawnb,objectmanager);
+	Opspwan.start();
 
 
 }
@@ -87,12 +92,14 @@ void drawMenuState(Graphics g) {
 	g.fillRect(0, 0, LeagueInvaders.WIDTH, LeagueInvaders.HEIGHT);
 	g.setFont(titleFont);
 	g.setColor(Color.YELLOW);
-	g.drawString("LEAGUE INVADERS" ,65,100);
+	g.drawString("LEAGUE INVADERS2" ,65,100);
 	
 	g.setFont(titleFont2);
-	g.drawString("Press ENTER to Start!" , 150,400);
+	g.drawString("Press ENTER to Start!" , 150,500);
   
-	g.drawString("Press SPACE for instructions" ,120,600);
+	g.drawString("Soda Can: Makes you bigger" ,120,300);
+	g.drawString("Sword: Makes you faster and smaller" ,120,250);
+	g.drawString("PowerfulAliens:Shoots at you" ,120,200);
 }
 void drawGameState(Graphics g) {
 	g.setColor(Color.BLACK);
